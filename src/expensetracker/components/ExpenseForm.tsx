@@ -22,17 +22,22 @@ interface Props {
   onSubmit: (data: expenseFormData) => void;
 }
 
-const ExpenseForm = () => {
+const ExpenseForm = ({ onSubmit }: Props) => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<expenseFormData>({
     resolver: zodResolver(schema),
   });
 
   return (
-    <form onSubmit={handleSubmit((data) => console.log(data))}>
+    <form
+      onSubmit={handleSubmit((data) => {
+        onSubmit(data), reset();
+      })}
+    >
       <div className="mb-3">
         <label html-for="description" className="form-label">
           Description
